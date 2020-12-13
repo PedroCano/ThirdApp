@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Moneda;
 use Illuminate\Http\Request;
+use DB;
 
 class MonedaController extends Controller
 {
@@ -10,12 +12,12 @@ class MonedaController extends Controller
     {
         $monedas = DB::table('monedas')->paginate(5);
 
-        return view('monedas.index', ['monedas' => $monedas]);
+        return view('moneda.index', ['monedas' => $monedas]);
     }
     
     public function create()
     {
-        return view('monedas.create');
+        return view('moneda.create');
     }
     
     public function store(Request $request)
@@ -30,18 +32,18 @@ class MonedaController extends Controller
 
         Moneda::create($request->all());
 
-        return redirect()->route('monedas.index')
+        return redirect()->route('moneda.index')
         ->with('success','Moneda creada!');
     }
     
     public function show(Moneda $moneda)
     {
-        return view('monedas.show',compact('article'));
+        return view('moneda.show',compact('moneda'));
     }
     
     public function edit(Moneda $moneda)
     {
-        return view('monedas.edit',compact('article'));
+        return view('moneda.edit',compact('moneda'));
     }
     
     public function update(Request $request, Moneda $moneda)
@@ -56,15 +58,16 @@ class MonedaController extends Controller
 
         $moneda->update($request->all());
   
-        return redirect()->route('monedas.index')
+        return redirect()->route('moneda.index')
                         ->with('success','Moneda editada!');
     }
     
     public function destroy(Moneda $moneda)
     {
+        
         $moneda->delete();
   
-        return redirect()->route('monedas.index')
+        return redirect()->route('moneda.index')
                         ->with('success','Moneda borrada!');
     }
 }
